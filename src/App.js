@@ -6,6 +6,7 @@ import FlippedContainer from "./components/FlippedContainer";
 import SepiaContainer from "./components/SepiaContainer";
 import BlurContainer from "./components/BlurContainer";
 import SharpenContainer from "./components/SharpenContainer";
+import TutorialSection from "./components/TutorialSection";
 import useImageProcessor from "./hooks/useImageProcessor";
 
 function App() {
@@ -58,6 +59,9 @@ function App() {
         <BlurContainer blurImage={blurImage} />
         <SharpenContainer sharpenImage={sharpenImage} />
       </div>
+
+      {/* Sección Tutorial */}
+      <TutorialSection />
     </div>
   );
 }
