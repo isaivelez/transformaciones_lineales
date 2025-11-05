@@ -1,7 +1,7 @@
 import React from "react";
 import "./TutorialSection.css";
-import 'katex/dist/katex.min.css';
-import { BlockMath } from 'react-katex';
+import "katex/dist/katex.min.css";
+import { BlockMath } from "react-katex";
 
 const TutorialSection = () => {
   return (
@@ -37,9 +37,7 @@ const TutorialSection = () => {
 
             <div className="formula-box">
               <h4>Fórmula Matemática:</h4>
-              <BlockMath>
-                Y = 0.2126R + 0.7152G + 0.0722B
-              </BlockMath>
+              <BlockMath>Y = 0.2126R + 0.7152G + 0.0722B</BlockMath>
             </div>
 
             <div className="formula-box">
@@ -254,7 +252,7 @@ const TutorialSection = () => {
           <p>
             <strong>💡 Nota:</strong> Todas estas transformaciones demuestran
             aplicaciones prácticas del álgebra lineal en el procesamiento
-            digital de imágenes, desde operaciones matriciales básicas hasta
+            digital de imágenes, desde operaciones matriciales hasta
             convoluciones avanzadas.
           </p>
         </div>
