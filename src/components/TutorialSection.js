@@ -1,5 +1,7 @@
 import React from "react";
 import "./TutorialSection.css";
+import 'katex/dist/katex.min.css';
+import { BlockMath } from 'react-katex';
 
 const TutorialSection = () => {
   return (
@@ -35,18 +37,16 @@ const TutorialSection = () => {
 
             <div className="formula-box">
               <h4>Fórmula Matemática:</h4>
-              <code>Y = 0.2126 × R + 0.7152 × G + 0.0722 × B</code>
+              <BlockMath>
+                Y = 0.2126R + 0.7152G + 0.0722B
+              </BlockMath>
             </div>
 
             <div className="formula-box">
               <h4>Representación Matricial:</h4>
-              <code>
-                [Y] = [0.2126 0.7152 0.0722] × [R]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[G]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[B]
-              </code>
+              <BlockMath>
+                {`\\begin{bmatrix} Y \\end{bmatrix} = \\begin{bmatrix} 0.2126 & 0.7152 & 0.0722 \\end{bmatrix} \\times \\begin{bmatrix} R \\\\ G \\\\ B \\end{bmatrix}`}
+              </BlockMath>
             </div>
 
             <div className="steps-box">
@@ -80,20 +80,19 @@ const TutorialSection = () => {
 
             <div className="formula-box">
               <h4>Matriz de Transformación:</h4>
-              <code>
-                T = [-1 0 ] × [x] = [-x]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;[ 0 -1 ] [y] [-y]
-              </code>
+              <BlockMath>
+                {`T = \\begin{bmatrix} -1 & 0 \\\\ 0 & -1 \\end{bmatrix} \\times \\begin{bmatrix} x \\\\ y \\end{bmatrix} = \\begin{bmatrix} -x \\\\ -y \\end{bmatrix}`}
+              </BlockMath>
             </div>
 
             <div className="formula-box">
               <h4>Transformación de Coordenadas:</h4>
-              <code>
-                x' = -x + width
-                <br />
-                y' = -y + height
-              </code>
+              <BlockMath>
+                {`\\begin{aligned}
+                  x' &= -x + width \\\\
+                  y' &= -y + height
+                \\end{aligned}`}
+              </BlockMath>
             </div>
 
             <div className="steps-box">
@@ -128,24 +127,20 @@ const TutorialSection = () => {
 
             <div className="formula-box">
               <h4>Matriz de Transformación Sepia:</h4>
-              <code>
-                [R'] = [0.393 0.769 0.189] × [R]
-                <br />
-                [G'] [0.349 0.686 0.168] [G]
-                <br />
-                [B'] [0.272 0.534 0.131] [B]
-              </code>
+              <BlockMath>
+                {`\\begin{bmatrix} R' \\\\ G' \\\\ B' \\end{bmatrix} = \\begin{bmatrix} 0.393 & 0.769 & 0.189 \\\\ 0.349 & 0.686 & 0.168 \\\\ 0.272 & 0.534 & 0.131 \\end{bmatrix} \\times \\begin{bmatrix} R \\\\ G \\\\ B \\end{bmatrix}`}
+              </BlockMath>
             </div>
 
             <div className="formula-box">
               <h4>Fórmulas Específicas:</h4>
-              <code>
-                R' = 0.393×R + 0.769×G + 0.189×B
-                <br />
-                G' = 0.349×R + 0.686×G + 0.168×B
-                <br />
-                B' = 0.272×R + 0.534×G + 0.131×B
-              </code>
+              <BlockMath>
+                {`\\begin{aligned}
+                  R' &= 0.393R + 0.769G + 0.189B \\\\
+                  G' &= 0.349R + 0.686G + 0.168B \\\\
+                  B' &= 0.272R + 0.534G + 0.131B
+                \\end{aligned}`}
+              </BlockMath>
             </div>
 
             <div className="steps-box">
@@ -179,25 +174,16 @@ const TutorialSection = () => {
 
             <div className="formula-box">
               <h4>Kernel Gaussiano 3×3:</h4>
-              <code>
-                K = 1/16 × [1 2 1]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[2
-                4 2]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[1
-                2 1]
-              </code>
+              <BlockMath>
+                {`K = \\frac{1}{16} \\times \\begin{bmatrix} 1 & 2 & 1 \\\\ 2 & 4 & 2 \\\\ 1 & 2 & 1 \\end{bmatrix}`}
+              </BlockMath>
             </div>
 
             <div className="formula-box">
               <h4>Operación de Convolución:</h4>
-              <code>
-                P'(x,y) = Σ Σ K(i,j) × P(x+i, y+j)
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i
-                j
-              </code>
+              <BlockMath>
+                {`P'(x,y) = \\sum_{i=-1}^{1} \\sum_{j=-1}^{1} K(i,j) \\times P(x+i, y+j)`}
+              </BlockMath>
             </div>
 
             <div className="steps-box">
@@ -232,20 +218,20 @@ const TutorialSection = () => {
 
             <div className="formula-box">
               <h4>Kernel de Realce:</h4>
-              <code>
-                K = [ 0 -1 0]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;[-1 5 -1]
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;[ 0 -1 0]
-              </code>
+              <BlockMath>
+                {`K = \\begin{bmatrix} 0 & -1 & 0 \\\\ -1 & 5 & -1 \\\\ 0 & -1 & 0 \\end{bmatrix}`}
+              </BlockMath>
             </div>
 
             <div className="formula-box">
               <h4>Operación de Convolución:</h4>
-              <code>
-                P'(x,y) = -P(x,y-1) - P(x-1,y) + 5×P(x,y) - P(x+1,y) - P(x,y+1)
-              </code>
+              <BlockMath>
+                {`P'(x,y) = -P(x,y-1) - P(x-1,y) + 5 \\times P(x,y) - P(x+1,y) - P(x,y+1)`}
+              </BlockMath>
+              Ó
+              <BlockMath>
+                {`P'(x,y) = \\sum_{i=-1}^{1} \\sum_{j=-1}^{1} K(i,j) \\times P(x+i, y+j)`}
+              </BlockMath>
             </div>
 
             <div className="steps-box">
