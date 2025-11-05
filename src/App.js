@@ -4,6 +4,8 @@ import ImageContainer from "./components/ImageContainer";
 import TransformationContainer from "./components/TransformationContainer";
 import FlippedContainer from "./components/FlippedContainer";
 import SepiaContainer from "./components/SepiaContainer";
+import BlurContainer from "./components/BlurContainer";
+import SharpenContainer from "./components/SharpenContainer";
 import useImageProcessor from "./hooks/useImageProcessor";
 
 function App() {
@@ -12,10 +14,14 @@ function App() {
     transformedImage,
     flippedImage,
     sepiaImage,
+    blurImage,
+    sharpenImage,
     handleImageUpload,
     canvasRef,
     flipCanvasRef,
     sepiaCanvasRef,
+    blurCanvasRef,
+    sharpenCanvasRef,
   } = useImageProcessor();
 
   return (
@@ -32,6 +38,8 @@ function App() {
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <canvas ref={flipCanvasRef} style={{ display: "none" }} />
       <canvas ref={sepiaCanvasRef} style={{ display: "none" }} />
+      <canvas ref={blurCanvasRef} style={{ display: "none" }} />
+      <canvas ref={sharpenCanvasRef} style={{ display: "none" }} />
 
       {/* Primera fila de contenedores */}
       <div className="main-containers">
@@ -43,6 +51,12 @@ function App() {
       <div className="main-containers secondary-row">
         <FlippedContainer flippedImage={flippedImage} />
         <SepiaContainer sepiaImage={sepiaImage} />
+      </div>
+
+      {/* Tercera fila de contenedores */}
+      <div className="main-containers secondary-row">
+        <BlurContainer blurImage={blurImage} />
+        <SharpenContainer sharpenImage={sharpenImage} />
       </div>
     </div>
   );

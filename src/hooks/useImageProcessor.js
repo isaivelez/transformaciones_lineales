@@ -6,9 +6,13 @@ const useImageProcessor = () => {
   const [transformedImage, setTransformedImage] = useState(null);
   const [flippedImage, setFlippedImage] = useState(null);
   const [sepiaImage, setSepiaImage] = useState(null);
+  const [blurImage, setBlurImage] = useState(null);
+  const [sharpenImage, setSharpenImage] = useState(null);
   const canvasRef = useRef(null);
   const flipCanvasRef = useRef(null);
   const sepiaCanvasRef = useRef(null);
+  const blurCanvasRef = useRef(null);
+  const sharpenCanvasRef = useRef(null);
 
   // Matriz de transformación lineal para convertir RGB a escala de grises
   // Basada en los coeficientes de luminancia estándar ITU-R BT.709
@@ -35,6 +39,85 @@ const useImageProcessor = () => {
     const sepiaG = Math.min(255, Math.round(0.349 * r + 0.686 * g + 0.168 * b));
     const sepiaB = Math.min(255, Math.round(0.272 * r + 0.534 * g + 0.131 * b));
     return [sepiaR, sepiaG, sepiaB];
+  };
+
+  // Función para aplicar desenfoque usando convolución con kernel gaussiano
+  const applyBlurKernel = (imageData, width, height) => {
+    // Kernel gaussiano 3x3 para desenfoque (suma = 16)
+    const kernel = [
+      [1, 2, 1],
+      [2, 4, 2],
+      [1, 2, 1],
+    ];
+    const kernelSum = 16;
+
+    const data = imageData.data;
+    const newData = new Uint8ClampedArray(data);
+
+    for (let y = 1; y < height - 1; y++) {
+      for (let x = 1; x < width - 1; x++) {
+        let r = 0,
+          g = 0,
+          b = 0;
+
+        // Aplicar kernel de convolución
+        for (let ky = -1; ky <= 1; ky++) {
+          for (let kx = -1; kx <= 1; kx++) {
+            const idx = ((y + ky) * width + (x + kx)) * 4;
+            const weight = kernel[ky + 1][kx + 1];
+            r += data[idx] * weight;
+            g += data[idx + 1] * weight;
+            b += data[idx + 2] * weight;
+          }
+        }
+
+        const currentIdx = (y * width + x) * 4;
+        newData[currentIdx] = r / kernelSum;
+        newData[currentIdx + 1] = g / kernelSum;
+        newData[currentIdx + 2] = b / kernelSum;
+      }
+    }
+
+    return new ImageData(newData, width, height);
+  };
+
+  // Función para aplicar nitidez usando kernel de realce
+  const applySharpenKernel = (imageData, width, height) => {
+    // Kernel de nitidez/realce (suma = 1)
+    const kernel = [
+      [0, -1, 0],
+      [-1, 5, -1],
+      [0, -1, 0],
+    ];
+
+    const data = imageData.data;
+    const newData = new Uint8ClampedArray(data);
+
+    for (let y = 1; y < height - 1; y++) {
+      for (let x = 1; x < width - 1; x++) {
+        let r = 0,
+          g = 0,
+          b = 0;
+
+        // Aplicar kernel de convolución
+        for (let ky = -1; ky <= 1; ky++) {
+          for (let kx = -1; kx <= 1; kx++) {
+            const idx = ((y + ky) * width + (x + kx)) * 4;
+            const weight = kernel[ky + 1][kx + 1];
+            r += data[idx] * weight;
+            g += data[idx + 1] * weight;
+            b += data[idx + 2] * weight;
+          }
+        }
+
+        const currentIdx = (y * width + x) * 4;
+        newData[currentIdx] = Math.max(0, Math.min(255, r));
+        newData[currentIdx + 1] = Math.max(0, Math.min(255, g));
+        newData[currentIdx + 2] = Math.max(0, Math.min(255, b));
+      }
+    }
+
+    return new ImageData(newData, width, height);
   };
 
   const processImageWithLinearTransformation = (img) => {
@@ -171,6 +254,78 @@ const useImageProcessor = () => {
     setSepiaImage(sepiaDataURL);
   };
 
+  // Función para aplicar desenfoque
+  const processBlurImage = (img) => {
+    const canvas = blurCanvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    // Configurar dimensiones
+    const containerWidth = 500;
+    const containerHeight = 400;
+    const aspectRatio = img.width / img.height;
+    let drawWidth, drawHeight;
+
+    if (aspectRatio > containerWidth / containerHeight) {
+      drawWidth = containerWidth;
+      drawHeight = containerWidth / aspectRatio;
+    } else {
+      drawHeight = containerHeight;
+      drawWidth = containerHeight * aspectRatio;
+    }
+
+    canvas.width = drawWidth;
+    canvas.height = drawHeight;
+
+    // Dibujar imagen original
+    ctx.drawImage(img, 0, 0, drawWidth, drawHeight);
+
+    // Obtener y procesar píxeles
+    const imageData = ctx.getImageData(0, 0, drawWidth, drawHeight);
+    const blurredImageData = applyBlurKernel(imageData, drawWidth, drawHeight);
+
+    ctx.putImageData(blurredImageData, 0, 0);
+    const blurDataURL = canvas.toDataURL();
+    setBlurImage(blurDataURL);
+  };
+
+  // Función para aplicar nitidez
+  const processSharpenImage = (img) => {
+    const canvas = sharpenCanvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    // Configurar dimensiones
+    const containerWidth = 500;
+    const containerHeight = 400;
+    const aspectRatio = img.width / img.height;
+    let drawWidth, drawHeight;
+
+    if (aspectRatio > containerWidth / containerHeight) {
+      drawWidth = containerWidth;
+      drawHeight = containerWidth / aspectRatio;
+    } else {
+      drawHeight = containerHeight;
+      drawWidth = containerHeight * aspectRatio;
+    }
+
+    canvas.width = drawWidth;
+    canvas.height = drawHeight;
+
+    // Dibujar imagen original
+    ctx.drawImage(img, 0, 0, drawWidth, drawHeight);
+
+    // Obtener y procesar píxeles
+    const imageData = ctx.getImageData(0, 0, drawWidth, drawHeight);
+    const sharpenedImageData = applySharpenKernel(
+      imageData,
+      drawWidth,
+      drawHeight
+    );
+
+    ctx.putImageData(sharpenedImageData, 0, 0);
+    const sharpenDataURL = canvas.toDataURL();
+    setSharpenImage(sharpenDataURL);
+  };
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -185,6 +340,8 @@ const useImageProcessor = () => {
           processImageWithLinearTransformation(img);
           processFlippedImage(img);
           processSepiaImage(img);
+          processBlurImage(img);
+          processSharpenImage(img);
         };
         img.src = e.target.result;
       };
@@ -198,10 +355,14 @@ const useImageProcessor = () => {
     transformedImage,
     flippedImage,
     sepiaImage,
+    blurImage,
+    sharpenImage,
     handleImageUpload,
     canvasRef,
     flipCanvasRef,
     sepiaCanvasRef,
+    blurCanvasRef,
+    sharpenCanvasRef,
   };
 };
 
