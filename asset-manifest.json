@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/transformaciones_lineales/static/css/main.1247f520.css",
+    "main.js": "/transformaciones_lineales/static/js/main.db30a8fd.js",
+    "index.html": "/transformaciones_lineales/index.html",
+    "main.1247f520.css.map": "/transformaciones_lineales/static/css/main.1247f520.css.map",
+    "main.db30a8fd.js.map": "/transformaciones_lineales/static/js/main.db30a8fd.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1247f520.css",
+    "static/js/main.db30a8fd.js"
+  ]
+}
